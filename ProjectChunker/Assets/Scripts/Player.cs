@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     public float speed = 10;
     public float jumpForce = 10;
     bool grounded = false;
-    bool jumpReset = true;
     Transform WeaponHolder;
+    public GameObject CollidingRoom = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +28,21 @@ public class Player : MonoBehaviour
         weapon();
        
     }
- 
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "room")
+        {
+            CollidingRoom = collision.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "room")
+        {
+            CollidingRoom = null;
+        }
+    }
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
