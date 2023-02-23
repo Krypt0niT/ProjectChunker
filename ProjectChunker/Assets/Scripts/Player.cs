@@ -21,15 +21,14 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        PlayerMove();
-    }
+ 
     private void Update()
     {
+        PlayerMove();
         weapon();
+       
     }
-
+ 
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -44,7 +43,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             grounded = false;
-            jumpReset = true;
         }
     }
     void PlayerMove()
@@ -57,15 +55,19 @@ public class Player : MonoBehaviour
         else if (!Input.GetKey(save.player.moveLeft) && Input.GetKey(save.player.moveRight)) { x = 1; }
         else { x = 0; }
 
-        if (Input.GetKey(save.player.jump) && grounded && jumpReset)
+        if (Input.GetKeyDown(save.player.jump) && grounded)
         {
             y = jumpForce;
-            jumpReset = false;
 
 
         }
+        
         moveDirection = new Vector2(x * speed, rb.velocity.y + y);
         rb.velocity = moveDirection;
+
+    }
+    void PlayerJump()
+    {
 
     }
     void weapon()
