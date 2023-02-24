@@ -29,18 +29,20 @@ public class Player : MonoBehaviour
        
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "room")
         {
             CollidingRoom = collision.gameObject;
         }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "room")
         {
             CollidingRoom = null;
+            GameObject.FindObjectOfType<Base>().HideRooms(0.5f);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

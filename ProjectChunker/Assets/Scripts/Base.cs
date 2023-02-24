@@ -24,15 +24,39 @@ public class Base : MonoBehaviour
         if(player.GetComponent<Player>().CollidingRoom != null)
         {
 
-            player.GetComponent<Player>().CollidingRoom.transform.Find("front").gameObject.SetActive(false);
+            ShowRoom(0.5f);
 
         }
-        else
+        HideRooms(0.5f);
+    }
+    public void HideRooms(float time)
+    {
+        for (int i = 0; i < numberOfRooms; i++)
         {
-            for (int i = 0; i < numberOfRooms; i++)
+            GameObject front = rooms[i].transform.Find("front").gameObject;
+            if (front.GetComponent<SpriteRenderer>().color.a < 1 && rooms[i] != player.GetComponent<Player>().CollidingRoom)
             {
-                rooms[i].transform.Find("front").gameObject.SetActive(true);
+                front.GetComponent<SpriteRenderer>().color = new Color(
+                    front.GetComponent<SpriteRenderer>().color.r,
+                    front.GetComponent<SpriteRenderer>().color.g,
+                    front.GetComponent<SpriteRenderer>().color.b,
+                    front.GetComponent<SpriteRenderer>().color.a + (Time.deltaTime / time)
+                    );
             }
+        }
+    }
+    void ShowRoom(float time)
+    {
+
+        GameObject front = player.GetComponent<Player>().CollidingRoom.transform.Find("front").gameObject;
+        if (front.GetComponent<SpriteRenderer>().color.a > 0)
+        {
+            front.GetComponent<SpriteRenderer>().color = new Color(
+                front.GetComponent<SpriteRenderer>().color.r,
+                front.GetComponent<SpriteRenderer>().color.g,
+                front.GetComponent<SpriteRenderer>().color.b,
+                front.GetComponent<SpriteRenderer>().color.a - (Time.deltaTime / time)
+                );
         }
     }
 }
