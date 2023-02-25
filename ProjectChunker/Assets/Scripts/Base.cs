@@ -6,7 +6,9 @@ public class Base : MonoBehaviour
 {
     List<GameObject> rooms = new List<GameObject>();
     int numberOfRooms = 0;
+    int numberOfElevators = 0;
     GameObject player;
+    List<List<GameObject>> elevators = new List<List<GameObject>>(); 
     void Start()
     {
         var Rooms = GameObject.FindGameObjectsWithTag("room");
@@ -15,6 +17,16 @@ public class Base : MonoBehaviour
         {
             rooms.Add(GameObject.Find("room"+i));
         }
+        var Elevators = GameObject.FindGameObjectsWithTag("elevator");
+        numberOfElevators = Elevators.Length;
+        for (int i = 0; i < numberOfElevators; i++)
+        {
+            GameObject el0 = GameObject.Find("door" + i + "-" + 0);
+            GameObject el1 = GameObject.Find("door" + i + "-" + 1);
+            
+
+            //elevators.Add(new List<GameObject>().Add(new List<GameObject>() = el0,el1));
+        }//GameObject.Find("room" + i)
 
         player = GameObject.FindObjectOfType<Player>().gameObject;
     }

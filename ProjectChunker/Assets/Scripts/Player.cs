@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     public float speed = 10;
     public float jumpForce = 10;
-    bool grounded = false;
+    bool grounded = false;  
     Transform WeaponHolder;
     public GameObject CollidingRoom = null;
+    public GameObject CollidingElevator = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,10 @@ public class Player : MonoBehaviour
         {
             CollidingRoom = collision.gameObject;
         }
+        if (collision.gameObject.tag == "elevator")
+        {
+            CollidingElevator = collision.gameObject;
+        }
 
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -43,6 +48,10 @@ public class Player : MonoBehaviour
         {
             CollidingRoom = null;
             GameObject.FindObjectOfType<Base>().HideRooms(0.5f);
+        }
+        if (collision.gameObject.tag == "elevator")
+        {
+            CollidingElevator = null;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -81,10 +90,7 @@ public class Player : MonoBehaviour
         rb.velocity = moveDirection;
 
     }
-    void PlayerJump()
-    {
 
-    }
     void weapon()
     {
         var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(new Vector3(WeaponHolder.position.x, WeaponHolder.position.y, WeaponHolder.position.z));
