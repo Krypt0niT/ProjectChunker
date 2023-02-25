@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     Transform WeaponHolder;
     public GameObject CollidingRoom = null;
     public GameObject CollidingElevator = null;
+    public bool usingElevator = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,11 @@ public class Player : MonoBehaviour
     {
         PlayerMove();
         weapon();
-       
+        elevatorInteraction();
+        if (Input.GetKey(KeyCode.X))
+        {
+            usingElevator = false;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -71,8 +76,9 @@ public class Player : MonoBehaviour
     }
     void PlayerMove()
     {
+        //podmienky
+        if (usingElevator) { return; }
         float x;
-
         float y = 0;
 
         if (Input.GetKey(save.player.moveLeft) && !Input.GetKey(save.player.moveRight)) { x = -1; }
@@ -88,6 +94,57 @@ public class Player : MonoBehaviour
         
         moveDirection = new Vector2(x * speed, rb.velocity.y + y);
         rb.velocity = moveDirection;
+
+    }
+    void elevatorInteraction()
+    {
+        if (Input.GetKeyDown(save.player.use))
+        {
+            if (CollidingElevator != null)
+            {
+                usingElevator = true;
+            }
+        }
+        if (usingElevator)
+        {
+            walkTo(CollidingElevator.transform.position.x);
+
+            GameObject frame0 = CollidingElevator.transform.Find("frame0").gameObject;
+            GameObject frame1 = CollidingElevator.transform.Find("frame1").gameObject;
+            frame0.transform.position = new Vector3(frame0.transform.position.x, frame0.transform.position.y, -1.6f);
+            frame1.transform.position = new Vector3(frame1.transform.position.x, frame1.transform.position.y, -1.6f);
+        }
+
+        if (CollidingElevator != null)
+        {
+            GameObject.FindObjectOfType<Base>().ElevatorOpenDoor();
+        }
+    }
+    public void walkTo(float positionX)
+    {
+        if( positionX > transform.position.x)
+        {
+            if (positionX - transform.position.x < 0.125)
+            {
+                transform.position = new Vector3(positionX, transform.position.y, transform.position.z);
+                return;
+            }
+            moveDirection = new Vector2(1 * speed, rb.velocity.y);
+            rb.velocity = moveDirection;
+        }
+        else if (positionX < transform.position.x)
+        {
+            if (transform.position.x - positionX < 0.125)
+            {
+                transform.position = new Vector3(positionX, transform.position.y, transform.position.z);
+                return;
+            }
+            moveDirection = new Vector2(-1 * speed, rb.velocity.y);
+            rb.velocity = moveDirection;
+            
+        }
+
+
 
     }
 

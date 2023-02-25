@@ -10,6 +10,7 @@ public class Save : MonoBehaviour
         public KeyCode moveLeft = KeyCode.A;
         public KeyCode moveRight = KeyCode.D;
         public KeyCode jump = KeyCode.Space;
+        public KeyCode use = KeyCode.E;
     }
     public playerControls player = new playerControls();
    
