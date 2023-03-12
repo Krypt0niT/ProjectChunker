@@ -8,10 +8,16 @@ public class Base : MonoBehaviour
     List<GameObject> rooms = new List<GameObject>();
     int numberOfRooms = 0;
     int numberOfElevators = 0;
+
+    public bool BaseMoving = true;
+    float baseSpeed = 1;
+    Rigidbody2D rb;
+
     GameObject player;
     List<List<GameObject>> elevators = new List<List<GameObject>>(); 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         var Rooms = GameObject.FindGameObjectsWithTag("room");
         numberOfRooms = Rooms.Length;
         for (int i = 0; i < numberOfRooms; i++)
@@ -45,6 +51,14 @@ public class Base : MonoBehaviour
  
         ElevatorCloseDoor();
         HideRooms(0.5f);
+        BaseMove();
+    }
+    void BaseMove()
+    {
+        if (BaseMoving)
+        {
+            rb.velocity = new Vector2(baseSpeed,0);
+        }
     }
     public void HideRooms(float time)
     {

@@ -107,12 +107,22 @@ public class Player : MonoBehaviour
         }
         if (usingElevator)
         {
-            walkTo(CollidingElevator.transform.position.x);
+            if (CollidingElevator != null)
+            {
+                walkTo(CollidingElevator.transform.position.x);
 
-            GameObject frame0 = CollidingElevator.transform.Find("frame0").gameObject;
-            GameObject frame1 = CollidingElevator.transform.Find("frame1").gameObject;
-            frame0.transform.position = new Vector3(frame0.transform.position.x, frame0.transform.position.y, -1.6f);
-            frame1.transform.position = new Vector3(frame1.transform.position.x, frame1.transform.position.y, -1.6f);
+                GameObject frame0 = CollidingElevator.transform.Find("frame0").gameObject;
+                GameObject frame1 = CollidingElevator.transform.Find("frame1").gameObject;
+                frame0.transform.position = new Vector3(frame0.transform.position.x, frame0.transform.position.y, -1.6f);
+                frame1.transform.position = new Vector3(frame1.transform.position.x, frame1.transform.position.y, -1.6f);
+
+                string neighbourDoor = CollidingElevator.name;
+            }
+            else
+            {
+                usingElevator = false;
+            }
+                
         }
 
         if (CollidingElevator != null)
